@@ -21,10 +21,6 @@
             android:name=".MainActivity"
             android:label="Spletni Avtoodpad"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity
-            android:name=".SubActivity"
-            android:label="@string/title_activity_sub"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
