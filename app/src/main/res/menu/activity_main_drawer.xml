@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_login"
+            android:icon="@drawable/ic_menu_login"
+            android:title="Podatki" />
+        <item
+            android:id="@+id/nav_garage"
+            android:icon="@drawable/ic_menu_garage"
+            android:title="Garaža" />
+        <item
+            android:id="@+id/nav_manage"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Orodja" />
+
+    </group>
+
+    <item android:title="Iskalnik">
+        <menu>
+            <item
+                android:id="@+id/nav_search"
+                android:icon="@drawable/ic_menu_inquiry"
+                android:title="Povpraševanje" />
+
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_sms_failed_black_24dp"
+                android:title="Prejeta obvestila" />
+        </menu>
+    </item>
+
+    <item android:title="Komunikacija">
+
+        <menu>
+
+
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Pošlji" />
+        </menu>
+    </item>
+
+
+</menu>
