@@ -20,7 +20,8 @@
         <activity
             android:name=".MainActivity"
             android:label="Spletni Avtoodpad"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".LogoutActivity"></activity>
     </application>
 
 </manifest>
