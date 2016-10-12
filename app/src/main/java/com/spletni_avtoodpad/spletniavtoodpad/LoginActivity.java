@@ -15,14 +15,16 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 
-import com.kosalgeek.android.md5simply.MD5;
-import com.kosalgeek.genasync12.*;
+import com.kosalgeek.android.md5simply.*;
+import com.kosalgeek.genasync12.AsyncResponse;
+import com.kosalgeek.genasync12.PostResponseAsyncTask;
 
 import java.util.HashMap;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     final String TAG = this.getClass().getName();
+
     Button logBt;
     EditText email, password;
     CheckBox checkBox;
@@ -32,12 +34,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     boolean checkFlag;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
 
         logBt = (Button) findViewById(R.id.logBt);
         email = (EditText) findViewById(R.id.email);
@@ -46,13 +46,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         checkBox.setOnCheckedChangeListener(this);
         checkFlag = checkBox.isChecked();
         Log.d(TAG, "checkFlag: " + checkFlag);
-
         logBt.setOnClickListener(this);
 
         pref = getSharedPreferences("login.conf", Context.MODE_PRIVATE);
         editor = pref.edit();
 
-        //
         String email = pref.getString("email", "");
         String password = pref.getString("password", "");
         Log.d(TAG, pref.getString("password", ""));
@@ -64,6 +62,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (!(email.equals("") && password.equals(""))) {
             PostResponseAsyncTask task = new PostResponseAsyncTask(LoginActivity.this, data,
                     new AsyncResponse() {
+
+
                         @Override
                         public void processFinish(String s) {
                             Log.d(TAG, s);
@@ -75,43 +75,45 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     });
 
             task.execute("http://garage.spletni-avtoodpad.si/APP/index.php");
-        }
 
+        }
     }
 
-    @Override
     public void onClick(View v) {
         HashMap data = new HashMap();
         data.put("txtEmail", email.getText().toString());
-        data.put("txtPassword", MD5.encrypt( password.getText().toString() ));
+        data.put("txtPassword", password.getText().toString());
 
         PostResponseAsyncTask task = new PostResponseAsyncTask(LoginActivity.this, data,
                 new AsyncResponse() {
-            @Override
-            public void processFinish(String s) {
-                Log.d(TAG, s);
-                if (s.contains("success")) {
+                    @Override
+                    public void processFinish(String s) {
+                        Log.d(TAG, s);
+                        if (s.contains("succes")) {
+                            if (checkFlag) {
+                                editor.putString("email", email.getText().toString());
+                                editor.putString("password", password.getText().toString());
+                                editor.apply();
 
-                    if (checkFlag) {
-                        editor.putString("email", email.getText().toString());
-                        editor.putString("password", password.getText().toString());
-                        editor.apply();
+                                Log.d(TAG, pref.getString("password", ""));
+
+                            }
+
+                            Intent in = new Intent(LoginActivity.this, MainActivity.class);
+                            startActivity(in);
+                        }
+
                     }
+                });
 
-                        Intent in = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(in);
-
-
-                }
-            }
-        });
         task.execute("http://garage.spletni-avtoodpad.si/APP/index.php");
-
     }
+
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-       checkFlag = isChecked;
+        checkFlag = isChecked;
         Log.d(TAG, "checkFlag: " + checkFlag);
+
     }
 }
